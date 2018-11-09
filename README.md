@@ -14,3 +14,8 @@ This repo is for Queen's University ELEC 498 2018-2019 Group 2 Project. We seek 
 7. Install TensorFlow library: https://www.tensorflow.org/install/pip?lang=python2
 
 
+Isabel notes November 9, 2018:
+- to run Python interpreter, have to do: `C:\Users\"Isabel Cumming"\AppData\Local\Programs\Python\Python36\python.exe`in command prompt. NOTE THE DOUBLE QUOTES AROUND MY NAME B/C OF SPACES (otherwise Command prompt will yell). 
+- moved Python so that would be in path C:\Python\python.exe so that when run `python helloworld2.py` in the proper folder, it might see it. 
+
+
