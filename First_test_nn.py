@@ -13,12 +13,12 @@ data = pd.read_csv("CapstoneData.csv", low_memory=False)
 # Output the number of rows
 print("Total rows: {0}".format(len(data)))
 
-training_output = data.iloc[:, 11791]
-training_output=tf.cast(training_output, tf.float32)
-data.iloc[:, 0:11791]=bias #introduce bias unit
-training_input=tf.cast(data, tf.float32)
+training_output = data.iloc[:, 11791] #the class labels are the last column of the csv file
+training_output=tf.cast(training_output, tf.float32) #change the class labels (all 0 or 1) to be floating pt numbers (note: chose 32 because random_normal below only uses 32)
+data.iloc[:, 0:11791]=bias #introduce bias unit- Make the last column be the bias (convention?)
+training_input=tf.cast(data, tf.float32) #the training input is all the data + the last column (which is now the bias)
  
-w = tf.Variable(tf.random_normal([11792, 1]), dtype=tf.float32)
+w = tf.Variable(tf.random_normal([11792, 1]), dtype=tf.float32) #instantiate the weights vector randomly
 
 # step(x) = { 1 if x > 0; -1 otherwise }
 
