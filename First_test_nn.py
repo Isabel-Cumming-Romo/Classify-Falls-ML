@@ -1,10 +1,6 @@
 import tensorflow as tf #importing the tensorflow library
 import pandas as pd #import csv file library
 
-#WHERE ARE WE? => TYPE ERROR
-#ValueError: Tensor conversion requested dtype float64 for 
-# Tensor with dtype float32: 'Tensor("Variable/read:0", shape=(11792, 1), dtype=float32)
-
 bias = 1.0
 
 # Read the file
@@ -46,9 +42,11 @@ mse = tf.reduce_mean(tf.square(error))
 
 delta = tf.matmul(training_input, error, transpose_a=True)
 
-train = tf.assign(w, tf.add(w, delta))
-
-
+tf.add(w, delta)
+print('here')
+train = tf.assign(w, tf.add(w, delta))   #this is where the error is (shape mismatch)
+#ValueError: Dimension 1 in both shapes must be equal, but are 1 and 673. Shapes are [11792,1] and [11792,673]. 
+# for 'Assign' (op: 'Assign') with input shapes: [11792,1], [11792,673].
 
 sess = tf.Session()
 
