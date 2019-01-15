@@ -11,8 +11,8 @@ This repo is for Queen's University ELEC 498 2018-2019 Group 2 Project. We seek 
 `cd C:\your-repo-path`
 (To find your-repo-path, once have gotten repo cloned on GH Desktop, click Repository->'Show in Explorer', and copy that path)
 `python helloworld2.py`
-7. Install TensorFlow library: https://www.tensorflow.org/install/pip?lang=python2
-
+ 7. Navigate to path where \Github is in command prompt, then create a virtual environment by doing `.\venv\Scripts\activate`
+ 8. Install tensorflow IN virtual environment by doing `pip tensorflow`(only have to do this installation of TF once, and then every time want to run a TF python file, just create a virtual environment again).
 
 Isabel notes November 9, 2018:
 - to run Python interpreter, have to do: `C:\Users\"Isabel Cumming"\AppData\Local\Programs\Python\Python36\python.exe`in command prompt. NOTE THE DOUBLE QUOTES AROUND MY NAME B/C OF SPACES (otherwise Command prompt will yell). 
