@@ -1,7 +1,7 @@
 #Main program
 
 	#initialize lambda
-	
+	lambda=0
 	#initialize max number of iterations
 	
 	# Initialize weights to random numbers: w_1, w_2, w_3 ...
