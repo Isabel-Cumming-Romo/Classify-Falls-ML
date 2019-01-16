@@ -1,16 +1,23 @@
 #Main program
+import random
+import numpy 
 
 	#initialize lambda
-	lambda=0
+	lam=0
 	#initialize max number of iterations
+	max_iterations=5
 	
 	# Initialize weights to random numbers: w_1, w_2, w_3 ...
+	w_1= numpy.matrix(numpy.random.random((2, 256))) #first make an nd-array, then convert that to a matrix
+	w_2= numpy.matrix(numpy.random.random((256, 256)))
+	w_3= numpy.matrix(numpy.random.random((256, 1)))
 	
 	#We have X 
 	
 	#Initialize y=zeros(m, 1)
 
 # for 1: max_iterarions
+for x in range(max_iterations):
 
 	#FEED-FORWARD PROPAGATION
 		
