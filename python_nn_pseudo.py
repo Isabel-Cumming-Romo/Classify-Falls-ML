@@ -1,6 +1,13 @@
 #Training the network
 
-	#
+	#initialize lambda
+	
+	#initialize max number of iterations
+	
+	#initialize parameters/weights (?)
+	
+	#Use an optimization function (like gradient descent)
+			#Feed it the cost function and the gradients (all calculated below)
 
 
 
