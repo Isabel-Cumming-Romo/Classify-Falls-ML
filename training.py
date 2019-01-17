@@ -43,6 +43,8 @@ for x in range(max_iterations):
 				# z_out = w_3*layer3_activation
 				# h = sigmoid(z_out)
 
+		#cost= computeCost(X, y, h, m)
+			#m is the number of training examples 
 		
 		#BACKPROP
 		
@@ -95,4 +97,28 @@ for x in range(max_iterations):
 		#Computes 1/(1+ e^(-input))
 		#Sanity check: this is done element-wise. It more or less changes the result to be between 0 and 1 
 				#(actually closer to 0 or 1 because of the nature of the function)
+				
+#computeCost(X, y, h, m)
+	#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
+		#Returns the cost 
+		#Which is basically the weighted number of examples classified incorrectly 
+		#i.e. we're summing up the amounts by which the predictor was off and then regularizing the number
+		#Parameters: Theta matrices, y, h (predictions from feedforward propagation)
+		#First get unregularized cost
+			
+			#for i=1:m
+			#J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
+			#end for
+			#I think we can also do a simple vectorized implementation of y'*log(h) + (1-y)'*log(1-h)
+					#but double check this
+			#Divide J by -m
+			
+		
+		#Then regularize the cost by summing together each individual squared term of each theta matrix 
+		
+			#Get rid of the first term of every Theta (this is the bias weight, we don't include it by convention, can try both ways)
+			#regTerm = sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)) + ...+ sum(sum(ThetaN.^2)
+			#regTerm = (regTerm * lambda)/2/m
+			
+		#Return final cost: J= J + regTerm
 				
