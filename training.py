@@ -12,7 +12,7 @@ import numpy
 	w_2= numpy.matrix(numpy.random.random((256, 256)))
 	w_3= numpy.matrix(numpy.random.random((256, 1)))
 	
-	#We have X 
+	#We have X(which is the training data)-- import the data here	
 	
 	#Initialize y=zeros(m, 1)
 
