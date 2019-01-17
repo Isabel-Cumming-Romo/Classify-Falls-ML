@@ -1,6 +1,6 @@
 #Main program
 
-	#initialize lambda
+	#initialize lambda (if we're using lambda?)
 	
 	#initialize max number of iterations
 	
