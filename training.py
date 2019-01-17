@@ -2,8 +2,13 @@
 import random
 import numpy 
 
+
+	#initialize lambda (if we're using lambda?)
+	
+
 	#initialize lambda
 	lam=0
+	
 	#initialize max number of iterations
 	max_iterations=5
 	
@@ -12,7 +17,7 @@ import numpy
 	w_2= numpy.matrix(numpy.random.random((256, 256)))
 	w_3= numpy.matrix(numpy.random.random((256, 1)))
 	
-	#We have X(which is the training data)-- import the data here	
+	#Import x (using pandas?)
 	
 	#Initialize y=zeros(m, 1)
 
@@ -46,7 +51,7 @@ for x in range(max_iterations):
         #[W3_gradient, layer2_h_gradient] = compute_gradient_for_weights_and_one_layer_below(output_layer_gradient, W3, layer2_h);
 		
 		
-		#...
+		#
 
 #ACTIVATION FUNCTION
 
