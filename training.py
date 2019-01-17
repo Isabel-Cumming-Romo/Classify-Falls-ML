@@ -1,16 +1,28 @@
 #Main program
+import random
+import numpy 
+
 
 	#initialize lambda (if we're using lambda?)
 	
+
+	#initialize lambda
+	lam=0
+	
 	#initialize max number of iterations
+	max_iterations=5
 	
 	# Initialize weights to random numbers: w_1, w_2, w_3 ...
+	w_1= numpy.matrix(numpy.random.random((2, 256))) #first make an nd-array, then convert that to a matrix
+	w_2= numpy.matrix(numpy.random.random((256, 256)))
+	w_3= numpy.matrix(numpy.random.random((256, 1)))
 	
-	#We have X 
+	#Import x (using pandas?)
 	
 	#Initialize y=zeros(m, 1)
 
 # for 1: max_iterarions
+for x in range(max_iterations):
 
 	#FEED-FORWARD PROPAGATION
 		
@@ -39,7 +51,7 @@
         #[W3_gradient, layer2_h_gradient] = compute_gradient_for_weights_and_one_layer_below(output_layer_gradient, W3, layer2_h);
 		
 		
-		#...
+		#
 
 #ACTIVATION FUNCTION
 
