@@ -28,19 +28,20 @@ for x in range(max_iterations):
 		
 		#layer1_activation =concatenate a column of all ones with X. 
 				#ie each row is a training example. The first column of each row is now a 1.
-				#so you just add a column -like "the one" feature
 				#a_1 is our first layer
 			
-		#z_2 = w_2 * layer1_activation	
+		#z_2 = w_1 * layer1_activation	
 		#Compute layer2_activation = sigmoid(z_2)
 			
 		#Compute a_3
 			# Concatenate a bias column of all 1s with layer2_activation	
-			# z_3 = w_3*layer2_activation
+			# z_3 = w_2*layer2_activation
 			#  layer3_activation = sigmoid(z_3)
 	
-		#Continue until the output_layer_activation, which should actually be h. 
-		#The sigmoid result is your prediction (yay!)
+		#Compute h (output layer activation...ie the hypothesis)
+				#Concatenate bias column of all 1s with layer3_activation
+				# z_out = w_3*layer3_activation
+				# h = sigmoid(z_out)
 
 		
 		#BACKPROP
@@ -48,10 +49,45 @@ for x in range(max_iterations):
 		#output_layer_gradient = 2*(output_layer_activation - y)/m
 		
 		#calculate gradients w.r.t. W3 and h2 (see defination of W3 and h2 in the figure of the handout) 
-        #[W3_gradient, layer2_h_gradient] = compute_gradient_for_weights_and_one_layer_below(output_layer_gradient, W3, layer2_h);
+        
+		#Remove first column of w_3
+		
+		#[W3_gradient, layer2_act_gradient] = compute_gradient(output_layer_gradient, w_3, layer2_activation);
 		
 		
-		#
+		#layer2_z_gradient = layer2_act_gradient.*activationGrad(layer2_activation);
+		
+		#Remove first column of w_2
+		
+		#[W2_gradient, layer1_act_gradient] = compute_gradient(layer2_act_gradient, w_2, layer1_activation);
+
+        
+        #layer1_z_gradient = layer1_act_gradient.* activationGrad(layer1_activation);
+		
+		#Remove first column of w_1
+ 
+        #[W1_gradient, ~] = compute_gradient(layer1_z_gradient, w_1, X);
+    
+		#Then we use a built-in optimizer 
+			#We pass in X, y, the gradients, and potentially the cost function
+			#We should receive updated weights back
+		
+#COMPUTE GRADIENT FUNCTION
+
+		# Return W_grad, h_grad
+		#Params: upper_gradient (ie the gradient received from the layer above), W, X (in this order)
+		
+		# W_grad = X' * upper_gradient; where ' means transpose 
+		
+		# h_grad = upper_gradient * W';
+		
+		
+#activationGrad FUNCTION
+
+		#Parameters: z (a numerical input vector or matrix)
+		#Returns: vector or matrix updated by
+			#sigmoid(z).*(1-sigmoid(z))
+		
 
 #ACTIVATION FUNCTION
 
