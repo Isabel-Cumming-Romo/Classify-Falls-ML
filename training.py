@@ -3,6 +3,8 @@ import random # for w's initalizations
 import numpy # for all matrix calculations
 import math # for sigmoid
 
+	#this is the number of features in the training matrix being read in (in the MATLAB code, is 256)
+	num_features=256;
 
 	#initialize lambda (if we're using lambda?)
 	
@@ -15,11 +17,14 @@ import math # for sigmoid
 	max_iterations=5
 	
 	# Initialize weights to random numbers: w_1, w_2, w_3 ...
-	w_1= numpy.matrix(numpy.random.random((2, 256))) #first make an nd-array, then convert that to a matrix
-	w_2= numpy.matrix(numpy.random.random((256, 256)))
-	w_3= numpy.matrix(numpy.random.random((256, 1)))
+	w_1= numpy.matrix(numpy.random.random((num_features, num_features))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
+	w_2= numpy.matrix(numpy.random.random((num_features, num_features)))
+	w_3= numpy.matrix(numpy.random.random((num_features, 1)))
 	
 	#Import x (using pandas?)
+	
+	#for now, have X being a matrix that is 600Xnum_features big  filled with 5's
+	X= numpy.full((600, 256), 2)
 	
 	#Initialize y=zeros(m, 1)
 	
@@ -41,7 +46,7 @@ for x in range(max_iterations):
 				#layer1_activation is our first layer
 			
 		#z_2 = w_1 * layer1_activation	
-		z_2 = numpy.matmul(w_1, layer1_activation) #intermediary variable
+		z_2 = numpy.matmul(layer1_activation, w_1) #intermediary variable (note: order is important for the multiplication so that dimensions match up)
 
 		#Compute layer2_activation = sigmoid(z_2)
 		layer2_activation= sigmoid (z_2)
@@ -59,7 +64,7 @@ for x in range(max_iterations):
 		#cost= computeCost(X, y, h, m)
 			#m is the number of training examples 
 		
-		#BACKPROP
+	#BACKPROP
 		
 		#output_layer_gradient = 2*(output_layer_activation - y)/m
 		
@@ -107,12 +112,22 @@ for x in range(max_iterations):
 		
 
 #ACTIVATION FUNCTION
+
 def sigmoid(x):
-  return 1 / (1 + math.exp(-x))
+    return 1 / (1 + numpy.exp(-x)) 
 		#Takes in a matrix
 		#Computes 1/(1+ e^(-input))
 		#Sanity check: this is done element-wise. It more or less changes the result to be between 0 and 1 
 				#(actually closer to 0 or 1 because of the nature of the function)
+				
+		####################test program in .py interpreter##################
+		#import numpy
+		#def sigmoid(x):
+		#	return 1 / (1 + numpy.exp(-x))
+		#X= numpy.full((600, 256), -2)
+		#ans= sigmoid (X)
+		#print (ans)
+		#################################################################
 				
 #computeCost(X, y, h, m)
 	#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
