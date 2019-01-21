@@ -30,7 +30,17 @@ import math # for sigmoid
 # for 1: max_iterarions
 for x in range(max_iterations):
 
-	#FEED-FORWARD PROPAGATION
+    
+	#Then we use a built-in optimizer 
+			#We pass in X, y, the gradients, and potentially the cost function
+			#We should receive updated weights back
+			
+			#model = opt.minimize(fun = CostFunc, x0 = initial_theta, args = (X, y), method = 'TNC', jac = Gradient)
+	
+
+# Compute gradient and cost function 
+
+#FEED-FORWARD PROPAGATION
 		
 		#layer1_activation =concatenate a column of all ones with X. 
 		#all_ones = numpy.ones((x_num_rows,1)) #a column of 1's
@@ -82,13 +92,9 @@ for x in range(max_iterations):
 		#Remove first column of w_1
  
         #[W1_gradient, ~] = compute_gradient(layer1_z_gradient, w_1, X);
-    
-	#Then we use a built-in optimizer 
-			#We pass in X, y, the gradients, and potentially the cost function
-			#We should receive updated weights back
-			
-			#model = opt.minimize(fun = CostFunc, x0 = initial_theta, args = (X, y), method = 'TNC', jac = Gradient)
-		
+
+
+	
 #COMPUTE GRADIENT FUNCTION
 
 		# Return W_grad, h_grad
