@@ -15,6 +15,9 @@ import math # for sigmoid
 	max_iterations=5
 	
 	# Initialize weights to random numbers: w_1, w_2, w_3 ...
+	
+	# TO DO: make sure the initialization numbers are small (between 0 and 1)
+	
 	w_1= numpy.matrix(numpy.random.random((2, 256))) #first make an nd-array, then convert that to a matrix
 	w_2= numpy.matrix(numpy.random.random((256, 256)))
 	w_3= numpy.matrix(numpy.random.random((256, 1)))
