@@ -21,14 +21,12 @@ import math # for sigmoid
 	
 	#Import x (using pandas?)
 	
-<<<<<<< HEAD
 	#Initialize y=zeros(m, 1)
 	
-=======
+
 	x_num_rows=3;
 	
 
->>>>>>> a5583e0afe00b3a02c7b976882eb677664b91b6d
 # for 1: max_iterarions
 for x in range(max_iterations):
 
