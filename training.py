@@ -1,9 +1,11 @@
 #Main program
-import random
-import numpy 
+import random # for w's initalizations
+import numpy # for all matrix calculations
+import math # for sigmoid
 
 
 	#initialize lambda (if we're using lambda?)
+	
 	
 
 	#initialize lambda
@@ -19,19 +21,32 @@ import numpy
 	
 	#Import x (using pandas?)
 	
+<<<<<<< HEAD
 	#Initialize y=zeros(m, 1)
+	
+=======
+	x_num_rows=3;
+	
 
+>>>>>>> a5583e0afe00b3a02c7b976882eb677664b91b6d
 # for 1: max_iterarions
 for x in range(max_iterations):
 
 	#FEED-FORWARD PROPAGATION
 		
 		#layer1_activation =concatenate a column of all ones with X. 
+		#all_ones = numpy.ones((x_num_rows,1)) #a column of 1's
+		#layer1_activation= numpy.hstack((all_ones, X))# i.e. add a column of 1's to the front of the X matrix
+		layer1_activation=X; #TODO-temporarily use layer1_activation without the bias (i.e. the column of 1's)
 				#ie each row is a training example. The first column of each row is now a 1.
-				#a_1 is our first layer
+				#so you just add a column -like "the one" feature
+				#layer1_activation is our first layer
 			
 		#z_2 = w_1 * layer1_activation	
+		z_2 = numpy.matmul(w_1, layer1_activation) #intermediary variable
+
 		#Compute layer2_activation = sigmoid(z_2)
+		layer2_activation= sigmoid (z_2)
 			
 		#Compute a_3
 			# Concatenate a bias column of all 1s with layer2_activation	
@@ -70,9 +85,11 @@ for x in range(max_iterations):
  
         #[W1_gradient, ~] = compute_gradient(layer1_z_gradient, w_1, X);
     
-		#Then we use a built-in optimizer 
+	#Then we use a built-in optimizer 
 			#We pass in X, y, the gradients, and potentially the cost function
 			#We should receive updated weights back
+			
+			#model = opt.minimize(fun = CostFunc, x0 = initial_theta, args = (X, y), method = 'TNC', jac = Gradient)
 		
 #COMPUTE GRADIENT FUNCTION
 
@@ -92,7 +109,8 @@ for x in range(max_iterations):
 		
 
 #ACTIVATION FUNCTION
-
+def sigmoid(x):
+  return 1 / (1 + math.exp(-x))
 		#Takes in a matrix
 		#Computes 1/(1+ e^(-input))
 		#Sanity check: this is done element-wise. It more or less changes the result to be between 0 and 1 
