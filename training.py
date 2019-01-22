@@ -71,11 +71,15 @@ def FFP_BP (x):
 
 	#Compute h (output layer activation...ie the hypothesis)
 			#Concatenate bias column of all 1s with layer3_activation
+			#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
+			#layer3_activation= numpy.hstack((all_ones,layer3_activation))
 			# z_out = w_3*layer3_activation
+			z_out= numpy.matmul (layer3_activation, w_3)
 			# h = sigmoid(z_out)
+			h = sigmoid(z_out)
 
-	#cost= computeCost(X, y, h, m)
-		#m is the number of training examples 
+	#cost= computeCost(X, y, h, m) #m is the number of training examples 
+	cost= computeCost(X, y, h, x_num_rows) #y is the vector containing the class values of the training data
 		
 #BACKPROP
 		
