@@ -63,7 +63,7 @@ def FFP_BP (x):
 	#Compute a_3
 		# Concatenate a bias column of all 1s with layer2_activation	
 		#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
-		#layer2_activation= numpy.hstack((all_ones,layer2_activation))# i.e. add a column of 1's to the front of the layer2_activation
+		#layer2_activation= numpy.hstack((all_ones,layer2_activation))# i.e. add a column of 1's to the front of the layer2_activation #TODO-temporarily use layer2_activation without the bias (i.e. the column of 1's)
 		# z_3 = w_2*layer2_activation
 		z_3= numpy.matmul (layer2_activation, w_2)
 		#  layer3_activation = sigmoid(z_3)
@@ -72,7 +72,7 @@ def FFP_BP (x):
 	#Compute h (output layer activation...ie the hypothesis)
 			#Concatenate bias column of all 1s with layer3_activation
 			#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
-			#layer3_activation= numpy.hstack((all_ones,layer3_activation))
+			#layer3_activation= numpy.hstack((all_ones,layer3_activation)) # i.e. add a column of 1's to the front of the layer3_activation #TODO-temporarily use layer3_activation without the bias (i.e. the column of 1's)
 			# z_out = w_3*layer3_activation
 			z_out= numpy.matmul (layer3_activation, w_3)
 			# h = sigmoid(z_out)
@@ -143,6 +143,7 @@ def sigmoid(x):
 		#################################################################
 				
 #computeCost(X, y, h, m)
+def computeCost(X, y, h, m):
 	#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
 		#Returns the cost 
 		#Which is basically the weighted number of examples classified incorrectly 
@@ -165,4 +166,60 @@ def sigmoid(x):
 			#regTerm = (regTerm * lambda)/2/m
 			
 		#Return final cost: J= J + regTerm
+	return ans; 
+	
+	
+#STILL WORKING ON THIS. BELOW CODE IS SHELL NEEDED FOR .PY INTERPRETER
+import numpy
+
+def sigmoid(x):
+    return 1 / (1 + numpy.exp(-x)) 
+    
+x_num_rows=3
+num_features=256;
+
+X= numpy.full((x_num_rows, num_features), -2)
+y = numpy.ones((x_num_rows,1)) 
+
+w_1= numpy.matrix(numpy.random.random((num_features, num_features))) 
+layer1_activation=X;
+z_2 = numpy.matmul(layer1_activation, w_1)
+h= sigmoid (z_2) #just make this h for now 
+print(h[0][0])
+
+def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
+	#Returns the cost 
+	#Which is basically the weighted number of examples classified incorrectly 
+	#i.e. we're summing up the amounts by which the predictor was off and then regularizing the number
+	#Parameters: Theta matrices, y, h (predictions from feedforward propagation)
+	#First get unregularized cost
+		
+	#for i=1:m
+	J=0
+	for i in range(x_num_rows):
+	    #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
+	    J=h[0][0]
+	    #J = J + y(i)*log(h(i)) + (1-y(i))*log(1-h(i))
+	#end for
+	#I think we can also do a simple vectorized implementation of y'*log(h) + (1-y)'*log(1-h)
+			#but double check this
+	#Divide J by -m
+	#J=J/x_num_rows
+		
+	
+	#Then regularize the cost by summing together each individual squared term of each theta matrix 
+	
+		#Get rid of the first term of every Theta (this is the bias weight, we don't include it by convention, can try both ways)
+		#regTerm = sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)) + ...+ sum(sum(ThetaN.^2)
+		#regTerm = (regTerm * lambda)/2/m
+		
+	#Return final cost: J= J + regTerm
+	return J
+
+#computeCost(X, y, h, x_num_rows)
+#print(y)
+#print(X)
+#print(computeCost(X, y, h, x_num_rows))
+#print("==============================")
+#print(h)
 				
