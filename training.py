@@ -169,23 +169,42 @@ def computeCost(X, y, h, m):
 	return ans; 
 	
 	
-#STILL WORKING ON THIS. BELOW CODE IS SHELL NEEDED FOR .PY INTERPRETER
+#STILL WORKING ON THIS. BELOW CODE IS SHELL NEEDED FOR .PY INTERPRETER==============================================================================
 import numpy
 
 def sigmoid(x):
     return 1 / (1 + numpy.exp(-x)) 
     
+def square(x):
+    return numpy.power(x, 2)
+    
 x_num_rows=3
 num_features=256;
 
 X= numpy.full((x_num_rows, num_features), -2)
+print(numpy.size(X,0))
+print(numpy.size(X,1))
 y = numpy.ones((x_num_rows,1)) 
+print(numpy.size(y,0))
+print(numpy.size(y,1))
 
-w_1= numpy.matrix(numpy.random.random((num_features, num_features))) 
-layer1_activation=X;
-z_2 = numpy.matmul(layer1_activation, w_1)
-h= sigmoid (z_2) #just make this h for now 
-print(h[0][0])
+w= numpy.matrix(numpy.random.random((num_features, 1))) 
+print(numpy.size(w,0))
+print(numpy.size(w,1))
+layer_activation=X;
+z = numpy.matmul(layer_activation, w)
+print(numpy.size(z,0))
+print(numpy.size(z,1))
+h= sigmoid (z)
+#print(h[0,:][:,0])
+print(numpy.size(h,0))
+print(numpy.size(h,1))
+print(h)
+print("=========================================")
+a= numpy.matrix([[1, 2], [4, 3]])
+print(a)
+a= square(a)
+print(a.sum())
 
 def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
 	#Returns the cost 
@@ -194,29 +213,35 @@ def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from 
 	#Parameters: Theta matrices, y, h (predictions from feedforward propagation)
 	#First get unregularized cost
 		
+	
+	J=0 #initialize J
 	#for i=1:m
-	J=0
 	for i in range(x_num_rows):
+	    #print(h[i,:][:,0]) #this is how print each entry in the vector h
+	    #print(y[i]) #this is how print each entry in the array y
 	    #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
-	    J=h[0][0]
-	    #J = J + y(i)*log(h(i)) + (1-y(i))*log(1-h(i))
+	    print("hi")
+	    J = J + y[i]*log(h[i,:][:,0]) + (1-y[i])*log(1-h[i,:][:,0])
 	#end for
 	#I think we can also do a simple vectorized implementation of y'*log(h) + (1-y)'*log(1-h)
 			#but double check this
 	#Divide J by -m
-	#J=J/x_num_rows
+	J=J/-x_num_rows
 		
 	
-	#Then regularize the cost by summing together each individual squared term of each theta matrix 
+	#Then regularize the cost by summing together each individual squared term of each w matrix 
 	
-		#Get rid of the first term of every Theta (this is the bias weight, we don't include it by convention, can try both ways)
-		#regTerm = sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)) + ...+ sum(sum(ThetaN.^2)
-		#regTerm = (regTerm * lambda)/2/m
+	#Get rid of the first term of every w (this is the bias weight, we don't include it by convention, can try both ways)
+	#don't do above^^ for now
+	#regTerm = sum(sum(w_1.^2)) + sum(sum(w_2.^2)) + ...+ sum(sum(w_N.^2)
+	#i.e. sum up ALL of the weights' squares
+		
+	#regTerm = (regTerm * lambda)/2/m
 		
 	#Return final cost: J= J + regTerm
 	return J
 
-#computeCost(X, y, h, x_num_rows)
+computeCost(X, y, h, x_num_rows)
 #print(y)
 #print(X)
 #print(computeCost(X, y, h, x_num_rows))
