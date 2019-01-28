@@ -112,9 +112,7 @@ print(y)
 w_1= numpy.matrix(numpy.random.random((num_features, 5))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
 w_2= numpy.matrix(numpy.random.random((5, 4)))
 w_3= numpy.matrix(numpy.random.random((4, 1)))
-print(w_1.shape)
-print(w_2.shape)
-print(w_3.shape)
+
 
 backProp(X,y,x_num_rows)
 

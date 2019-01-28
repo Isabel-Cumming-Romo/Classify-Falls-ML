@@ -15,6 +15,19 @@ def sigmoidGradient(z):
     
 def square(x):
     return numpy.power(x, 2)
+	
+def pack_weights(w1, w2, w3):
+    return np.concatenate((w1.reshape(-1), w2.reshape(-1), w3.reshape(-1)))
+		
+def unpack_thetas(self, weights, input_layer_size, hidden_layer_one_size, hidden_layer_two_size, num_labels):
+    w1_start = 0
+    w1_end = hidden_layer_one_size * (input_layer_size)
+	w2_end = hidden_layer_two_size * hidden_layer_one_size
+    w1 = weights[w1_start:w1_end].reshape((hidden_layer_one_size, input_layer_size))
+    w2 = weights[w1_end:w2_end].reshape((hidden_layer_two_size, hidden_layer_one_size))
+	w3 = weight[w2_end:].reshape((num_labels, hidden_layer_two_size))
+    return w1, w2, w3
+
     
 
 def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
@@ -153,9 +166,8 @@ def backProp(X, y, x_num_rows):
 		
 	W3_gradient, layer2_act_gradient = computeGradient(output_layer_gradient, w_3, layer3_activation)
 	
-	#In the ML prof's code, this was done element-wise, but that makes no sense to me
-	#layer2_z_gradient = numpy.matmul(numpy.transpose(layer2_act_gradient), sigmoidGradient(layer2_activation))
-	layer2_z_gradient = numpy.multiply(layer2_act_gradient, sigmoidGradient(layer3_activation))
+	layer2_z_gradient = numpy.multiply(layer2_act_gradient, sigmoidGradient(z_3))
+	#TO-DO: double check use of z vs. h here
 
 	
 	#Now for layer 1
@@ -165,10 +177,12 @@ def backProp(X, y, x_num_rows):
 	W2_gradient, layer1_act_gradient = computeGradient(layer2_act_gradient, w_2, layer2_activation)
 	
 	#Input layer
-	layer1_z_gradient = numpy.multiply(layer1_act_gradient, sigmoidGradient(layer2_activation))
+	layer1_z_gradient = numpy.multiply(layer1_act_gradient, sigmoidGradient(z_2))
 	
 	W1_gradient, throwAway = computeGradient(layer1_z_gradient, w_1, X)
 	print(W1_gradient.shape)
+	
+	#TO-DO, return gradients in neccessary format
 	return 0
 	
 #====START OF "MAIN"================
@@ -185,13 +199,14 @@ def backProp(X, y, x_num_rows):
 #Y=data.iloc[:, 0:10298];
 
 #this is the number of features in the training matrix being read in (in the MATLAB code, is 256)
-num_features=3;
+input_layer_size=3;
 	
 	#this is the number of samples (i.e. rows)
 x_num_rows=10;
 
-h_layer1_size=15;
-h_layer2_size=15;
+layer_hidden_one_size=5
+layer_hidden_two_size=3
+output_layer_size=1
 
 #X = data.iloc[:, 10299]; #the class labels are the last column of the csv file
 #Y=data.iloc[:, 0:10298];
@@ -200,10 +215,10 @@ h_layer2_size=15;
 lam=1
 	
 	#initialize max number of iterations
-max_iterations=5
+max_iter=5
 	
 #for now, have X being a matrix that is 600Xnum_features big  filled with 5's
-X= numpy.matrix(numpy.random.random((x_num_rows, num_features)))
+X= numpy.matrix(numpy.random.random((x_num_rows, input_layer_size)))
 print("X initialized:")
 print(X)
 y=[1,1,0,1,0,0,0,1,1,0]
@@ -211,9 +226,9 @@ print("Y initialized:")
 print(y)
 
 # Initialize weights to random numbers: w_1, w_2, w_3 ...# TO DO: make sure the initialization numbers are small (between 0 and 1)
-w_1= numpy.matrix(numpy.random.random((num_features, h_layer1_size))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
-w_2= numpy.matrix(numpy.random.random((h_layer1_size, h_layer2_size)))
-w_3= numpy.matrix(numpy.random.random((h_layer2_size, 1)))
+w_1= numpy.matrix(numpy.random.random((num_features, layer_hidden_one_size))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
+w_2= numpy.matrix(numpy.random.random((layer_hidden_one_size, layer_hidden_two_size)))
+w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
 	
 
 # for 1: max_iterarions
