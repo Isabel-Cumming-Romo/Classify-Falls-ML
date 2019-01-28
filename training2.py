@@ -27,6 +27,16 @@ def unpack_thetas(self, weights, input_layer_size, hidden_layer_one_size, hidden
     w2 = weights[w1_end:w2_end].reshape((hidden_layer_two_size, hidden_layer_one_size))
 	w3 = weight[w2_end:].reshape((num_labels, hidden_layer_two_size))
     return w1, w2, w3
+	
+def unpack_weights_array(weights_array):
+	#def func(a, b, c):
+	#	a=a+a 
+	#	b=b+5
+	#	c=c+10
+	#return a, b, c
+	#	a, b, c = func(a, b, c)
+
+	return w_1, w_2, w_3 #this way of returning the values should work. When call this function, to store the different values, do w_1, w_2, w_3 = unpack_weights_array (weights_array)
 
     
 
