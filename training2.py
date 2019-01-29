@@ -18,26 +18,37 @@ def square(x):
 	
 def pack_weights(w1, w2, w3):
     return np.concatenate((w1.reshape(-1), w2.reshape(-1), w3.reshape(-1)))
-		
-def unpack_thetas(self, weights, input_layer_size, hidden_layer_one_size, hidden_layer_two_size, num_labels):
-    w1_start = 0
-    w1_end = hidden_layer_one_size * (input_layer_size)
-	w2_end = hidden_layer_two_size * hidden_layer_one_size
-    w1 = weights[w1_start:w1_end].reshape((hidden_layer_one_size, input_layer_size))
-    w2 = weights[w1_end:w2_end].reshape((hidden_layer_two_size, hidden_layer_one_size))
-	w3 = weight[w2_end:].reshape((num_labels, hidden_layer_two_size))
-    return w1, w2, w3
 	
-def unpack_weights_array(weights_array):
-	#def func(a, b, c):
-	#	a=a+a 
-	#	b=b+5
-	#	c=c+10
-	#return a, b, c
-	#	a, b, c = func(a, b, c)
-
-	return w_1, w_2, w_3 #this way of returning the values should work. When call this function, to store the different values, do w_1, w_2, w_3 = unpack_weights_array (weights_array)
-
+def unpack_weights_array (weights):
+    w_1=numpy.empty([input_layer_size, layer_hidden_one_size])
+    w_2=numpy.empty([layer_hidden_one_size, layer_hidden_two_size])
+    w_3=numpy.empty([layer_hidden_two_size, output_layer_size])
+    for i in range(input_layer_size):
+        for j in range(layer_hidden_one_size):
+            w_1[i, j]= a[i*j]
+    
+    for i in range(layer_hidden_one_size):
+        for j in range(layer_hidden_two_size):
+            w_2[i, j]= a[input_layer_size*layer_hidden_one_size + i*j]
+            
+    for i in range(layer_hidden_two_size):
+        for j in range(output_layer_size):
+            w_3[i, j]= a[input_layer_size*layer_hidden_one_size + layer_hidden_one_size*layer_hidden_two_size + i*j]
+            
+    return w_1, w_2, w_3
+	
+	# TO TEST UNPACK_WEIGHTS ARRAY: 
+	#input_layer_size=5;
+	#layer_hidden_one_size=5
+	#layer_hidden_two_size=3
+	#output_layer_size=1
+	#a= [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+	#2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
+	#3, 3, 3]
+	#w_1, w_2, w_3 = unpack_weights_array(a)
+	#print(w_1)
+	#print(w_2)
+	#print(w_3)
     
 
 def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
@@ -236,7 +247,7 @@ print("Y initialized:")
 print(y)
 
 # Initialize weights to random numbers: w_1, w_2, w_3 ...# TO DO: make sure the initialization numbers are small (between 0 and 1)
-w_1= numpy.matrix(numpy.random.random((num_features, layer_hidden_one_size))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
+w_1= numpy.matrix(numpy.random.random((input_layer_size, layer_hidden_one_size))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
 w_2= numpy.matrix(numpy.random.random((layer_hidden_one_size, layer_hidden_two_size)))
 w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
 	
