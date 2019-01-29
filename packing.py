@@ -1,22 +1,35 @@
 import numpy 
 
 def pack_weights(w1, w2, w3):
+	
+	size=input_layer_size*layer_hidden_one_size + layer_hidden_one_size*layer_hidden_two_size + layer_hidden_two_size*output_layer_size
+	weights=numpy.zeros(size)
+	print("size is ")
+	print(size)
 
 	
-
+	i=0
+		
+	for k in range(input_layer_size):
+		for j in range(layer_hidden_one_size):
+			weights[i]=w1[k, j]
+			i=i+1
+	#print(weights)			
+	for k in range(layer_hidden_one_size):
+		for j in range(layer_hidden_two_size):
+			weights[i]=w2[k, j]	
+			i=i+1
+	#print(weights)	
+	for k in range(layer_hidden_two_size):
+		weights[i]=w3[k, 0]	
+		i=i+1
+			
+	print(weights)
 	return weights
 		
-def unpack_weights(weights, input_layer_size, hidden_layer_one_size, hidden_layer_two_size, num_labels):
-	w1_start = 0
-	w1_end = hidden_layer_one_size * (input_layer_size)
-	w2_end = hidden_layer_two_size * hidden_layer_one_size
-	w1 = weights[w1_start:w1_end].reshape((hidden_layer_one_size, input_layer_size))
-	w2 = weights[w1_end:w2_end].reshape((hidden_layer_two_size, hidden_layer_one_size))
-	w3 = weight[w2_end:].reshape((num_labels, hidden_layer_two_size))
-	return w1, w2, w3
 	
 input_layer_size=5
-layer_hidden_one_size=5
+layer_hidden_one_size=9
 layer_hidden_two_size=3
 output_layer_size=1
 
@@ -24,6 +37,13 @@ w_1= numpy.matrix(numpy.random.random((input_layer_size, layer_hidden_one_size))
 w_2= numpy.matrix(numpy.random.random((layer_hidden_one_size, layer_hidden_two_size)))
 w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
 
-weights=numpy.column_stack(w_1, w_2)
+print("w1")
+print(w_1)
+print("w2")
+print(w_2)
+print("w3")
+print(w_3)
+
+weights=pack_weights(w_1, w_2, w_3)
 
 

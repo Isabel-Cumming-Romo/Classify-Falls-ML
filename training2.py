@@ -16,19 +16,6 @@ def sigmoidGradient(z):
 def square(x):
     return numpy.power(x, 2)
 	
-def pack_weights(w1, w2, w3):
-    return np.concatenate((w1.reshape(-1), w2.reshape(-1), w3.reshape(-1)))
-		
-def unpack_thetas(self, weights, input_layer_size, hidden_layer_one_size, hidden_layer_two_size, num_labels):
-    w1_start = 0
-    w1_end = hidden_layer_one_size * (input_layer_size)
-	w2_end = hidden_layer_two_size * hidden_layer_one_size
-    w1 = weights[w1_start:w1_end].reshape((hidden_layer_one_size, input_layer_size))
-    w2 = weights[w1_end:w2_end].reshape((hidden_layer_two_size, hidden_layer_one_size))
-	w3 = weight[w2_end:].reshape((num_labels, hidden_layer_two_size))
-    return w1, w2, w3
-
-    
 
 def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
 	#Returns the cost 
@@ -245,4 +232,7 @@ _res = optimize.minimize(self.function, thetas0, jac=self.function_prime, method
 args=(input_layer_size, self.hidden_layer_size, num_labels, X, y, 0), options=options)
 self.t1, self.t2 = self.unpack_thetas(_res.x, input_layer_size, self.hidden_layer_size, num_labels)
 
-				
+#MINI BATCH SGD
+#check validation every 2 epochs...to protect from overfitting (and what do you do if it's bad?)
+#then testing at the end
+
