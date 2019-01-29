@@ -17,7 +17,28 @@ def square(x):
     return numpy.power(x, 2)
 	
 def pack_weights(w1, w2, w3):
-    return np.concatenate((w1.reshape(-1), w2.reshape(-1), w3.reshape(-1)))
+	
+	size=input_layer_size*layer_hidden_one_size + layer_hidden_one_size*layer_hidden_two_size + layer_hidden_two_size*output_layer_size
+	weights=numpy.zeros(size)
+	print("size is ")
+	print(size)
+
+	i=0
+		
+	for k in range(input_layer_size):
+		for j in range(layer_hidden_one_size):
+			weights[i]=w1[k, j]
+			i=i+1
+	#print(weights)			
+	for k in range(layer_hidden_one_size):
+		for j in range(layer_hidden_two_size):
+			weights[i]=w2[k, j]	
+			i=i+1
+	#print(weights)	
+	for k in range(layer_hidden_two_size):
+		weights[i]=w3[k, 0]	
+		i=i+1
+	return weights
 	
 def unpack_weights_array (weights):
     w_1=numpy.empty([input_layer_size, layer_hidden_one_size])
