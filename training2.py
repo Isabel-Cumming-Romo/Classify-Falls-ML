@@ -274,7 +274,23 @@ w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)
 	
 
 # for 1: max_iterarions
-#for x in range(max_iterations):
+
+############################TODO: finish up mini-batches#########################################
+import numpy
+x_num_rows=10;
+input_layer_size=3;
+
+max_iter=5
+X= numpy.matrix(numpy.random.random((x_num_rows, input_layer_size)))
+
+for epoch in range(max_iter): #epochs
+    for batch in range(9): #mini-batches are size 25
+        x_batch= X[batch,:]
+
+print(X)
+print("=====================")
+print(x_batch)
+############################TODO: finish up mini-batches#########################################
 
     
 	#Then we use a built-in optimizer 
