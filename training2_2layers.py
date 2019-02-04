@@ -16,17 +16,16 @@ def sigmoidGradient(z):
 def square(x):
     return numpy.power(x, 2)
 	
-def pack_weights(w1, w2, w3):
+def pack_weights(w1, w2):
 	
 	#get dims
 	first_dim=numpy.shape(w1)
 	input_size=first_dim[0]
 	one_size=first_dim[1]
-	second_dim=numpy.shape(w3)
-	two_size=second_dim[0]
-	output_size=second_dim[1]
+	two_size=1
 	
-	size=input_size*one_size + one_size*two_size + two_size*output_size
+	
+	size=input_size*one_size + one_size*two_size
 
 	weights=numpy.zeros(size)
 	i=0
@@ -40,11 +39,10 @@ def pack_weights(w1, w2, w3):
 		for j in range(two_size):
 			weights[i]=w2[k, j]	
 			i=i+1
-
-	for k in range(two_size):
-		weights[i]=w3[k, 0]	
-		i=i+1
-	
+	#print(weights)	
+	# for k in range(two_size):
+		# weights[i]=w3[k, 0]	
+		# i=i+1
 	return weights
 	
 	
@@ -57,7 +55,7 @@ def unpack_weights_array(a):
 		
 	w_1=numpy.empty([input_layer_size, layer_hidden_one_size])
 	w_2=numpy.empty([layer_hidden_one_size, layer_hidden_two_size])
-	w_3=numpy.empty([layer_hidden_two_size, output_layer_size])
+	#w_3=numpy.empty([layer_hidden_two_size, output_layer_size])
 	
 	k=0
 	for i in range(input_layer_size):
@@ -70,12 +68,12 @@ def unpack_weights_array(a):
 			w_2[i, j]= a[k]
 			k=k+1
 			
-	for i in range(layer_hidden_two_size):
-		for j in range(output_layer_size):
-			w_3[i, j]= a[k]
-			k=k+1
+	# for i in range(layer_hidden_two_size):
+		# for j in range(output_layer_size):
+			# w_3[i, j]= a[k]
+			# k=k+1
 
-	return w_1, w_2, w_3
+	return w_1, w_2
 	
     
 
@@ -87,36 +85,31 @@ def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from 
 	#First get unregularized cost
 		
 	
-	# J=0 #initialize J
-	# #for i=1:m
+	J=0 #initialize J
+	#for i=1:m
 	
-	# for i in range(x_num_rows):
+	for i in range(x_num_rows):
 	    
-	    # #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
+	    #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
 	   
-	    # J = J + y[i]*(numpy.log(h[i])) + (1-y[i])*(numpy.log(1-h[i]))
-	# #end for
-	# #I think we can also do a simple vectorized implementation of y'*log(h) + (1-y)'*log(1-h)
-			# #but double check this
-	# #Divide J by -m
-	# J = J/(-x_num_rows)
+	    J = J + y[i]*(numpy.log(h[i])) + (1-y[i])*(numpy.log(1-h[i]))
+	#end for
+	#I think we can also do a simple vectorized implementation of y'*log(h) + (1-y)'*log(1-h)
+			#but double check this
+	#Divide J by -m
+	J = J/(-x_num_rows)
 		
 	
-	# #Then regularize the cost by summing together each individual squared term of each w matrix 
+	#Then regularize the cost by summing together each individual squared term of each w matrix 
 	
-	# #Get rid of the first term of every w (this is the bias weight, we don't include it by convention, can try both ways)
-	# #don't do above^^ for now
+	#Get rid of the first term of every w (this is the bias weight, we don't include it by convention, can try both ways)
+	#don't do above^^ for now
 	
-	# regTerm=numpy.sum(square(w_1)) + numpy.sum(square(w_2)) + numpy.sum(square(w_3))
+	regTerm=numpy.sum(square(w_1)) + numpy.sum(square(w_2)) + numpy.sum(square(w_3))
 		
-	# regTerm = (regTerm * lam)/(2*x_num_rows)
-	# J = J+regTerm
-
-	J=numpy.sum(numpy.square(y-h))
+	regTerm = (regTerm * lam)/(2*x_num_rows)
+	J = J+regTerm
 	
-	s=numpy.shape(h)
-
-	J=J/s[0]
 		
 	#Return final cost: J= J + regTerm
 	return J
@@ -127,19 +120,23 @@ def predict(weights, X, y, x_num_rows):
 	#layer1_activation =concatenate a column of all ones with X. 
 	#all_ones = numpy.ones((x_num_rows,1)) #a column of 1's
 	
-	w_1, w_2, w_3=unpack_weights_array(weights)
+	w_1, w_2=unpack_weights_array(weights)
 	
 	layer1_activation=X; #TODO-temporarily use layer1_activation without the bias (i.e. the column of 1's)
 			#ie each row is a training example. The first column of each row is now a 1.
 			#so you just add a column -like "the one" feature
 			#layer1_activation is our first layer3
+	print("X " + str(layer1_activation))
+	print("w_1 " + str(w_1))
 		
 	#z_2 = w_1 * layer1_activation	
 	z_2 = numpy.dot(layer1_activation, w_1) #intermediary variable (note: order is important for the multiplication so that dimensions match up)
+	print("z_2 " + str(z_2))
 	
 	#Compute layer2_activation = sigmoid(z_2)
 	layer2_activation= sigmoid(z_2)
-
+	print("layer2_act " + str(layer2_activation))
+	print("w_2 " + str(w_2))
 		
 	#Compute a_3
 		# Concatenate a bias column of all 1s with layer2_activation	
@@ -147,20 +144,21 @@ def predict(weights, X, y, x_num_rows):
 		#layer2_activation= numpy.hstack((all_ones,layer2_activation3))# i.e. add a column of 1's to the front of the layer2_activation #TODO-temporarily use layer2_activation without the bias (i.e. the column of 1's)
 		# z_3 = w_2*layer2_activation
 	z_3= numpy.dot(layer2_activation, w_2)
-
+	print("z_3 " + str(z_3))
 		#  layer3_activation = sigmoid(z_3)
-	layer3_activation = sigmoid(z_3)
+	h = sigmoid(z_3)
 
 	#Compute h (output layer activation...ie the hypothesis)
 			#Concatenate bias column of all 1s with layer3_activation
 			#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
 			#layer3_activation= numpy.hstack((all_ones,layer3_activation)) # i.e. add a column of 1's to the front of the layer3_activation #TODO-temporarily use layer3_activation without the bias (i.e. the column of 1's)
 			# z_out = w_3*layer3_activation
-	z_out= numpy.dot(layer3_activation, w_3)
+	# z_out= numpy.dot(layer3_activation, w_3)
 	
-			# h = sigmoid(z_out)
-	h = sigmoid(z_out)
-	
+	# print("z_out " + str(z_out))
+			# # h = sigmoid(z_out)
+	# h = sigmoid(z_out)
+	#print("The prediction is\n")
 	#print(h)
 
 	return h
@@ -171,7 +169,7 @@ def FFP (weights, X, y, x_num_rows):
 	#layer1_activation =concatenate a column of all ones with X. 
 	#all_ones = numpy.ones((x_num_rows,1)) #a column of 1's
 	
-	w_1, w_2, w_3=unpack_weights_array(weights)
+	#w_1, w_2, w_3=unpack_weights_array(weights)
 	
 	layer1_activation=X; #TODO-temporarily use layer1_activation without the bias (i.e. the column of 1's)
 			#ie each row is a training example. The first column of each row is now a 1.
@@ -229,7 +227,7 @@ def backProp(weights, X, y, x_num_rows):
 			#layer1_activation is our first layer3
 		
 	#z_2 = w_1 * layer1_activation	
-	z_2 = numpy.dot(layer1_activation, w_1) #intermediary variable (note: order is important for the multiplication so that dimensions match up)
+	z_2 = numpy.matmul(layer1_activation, w_1) #intermediary variable (note: order is important for the multiplication so that dimensions match up)
 
 	#Compute layer2_activation = sigmoid(z_2)
 	layer2_activation= sigmoid (z_2)
@@ -241,7 +239,7 @@ def backProp(weights, X, y, x_num_rows):
 		#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
 		#layer2_activation= numpy.hstack((all_ones,layer2_activation3))# i.e. add a column of 1's to the front of the layer2_activation #TODO-temporarily use layer2_activation without the bias (i.e. the column of 1's)
 		# z_3 = w_2*layer2_activation
-	z_3= numpy.dot(layer2_activation, w_2)
+	z_3= numpy.matmul (layer2_activation, w_2)
 	#print("Layer 2 activation shape is")
 	#print(z_3.shape)
 		#  layer3_activation = sigmoid(z_3)
@@ -252,7 +250,7 @@ def backProp(weights, X, y, x_num_rows):
 			#all_ones = numpy.ones((x_num_rows,1)) #column of 1's
 			#layer3_activation= numpy.hstack((all_ones,layer3_activation)) # i.e. add a column of 1's to the front of the layer3_activation #TODO-temporarily use layer3_activation without the bias (i.e. the column of 1's)
 			# z_out = w_3*layer3_activation
-	z_out= numpy.dot(layer3_activation, w_3)
+	z_out= numpy.matmul (layer3_activation, w_3)
 			# h = sigmoid(z_out)
 	h = sigmoid(z_out)
 	
@@ -330,24 +328,34 @@ y = numpy.array([[0,0,1,1]]).T
 # Initialize weights to random numbers: w_1, w_2, w_3 ...# TO DO: make sure the initialization numbers are small (between 0 and 1)
 w_1= numpy.matrix(numpy.random.random((input_layer_size, layer_hidden_one_size))) #for now, since don't know what # of internal nodes will have (i.e. the latter dimension of this matrix), just make it 256
 w_2= numpy.matrix(numpy.random.random((layer_hidden_one_size, layer_hidden_two_size)))
-w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
+#w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
 
-weights=pack_weights(w_1, w_2, w_3)
+
+weights=pack_weights(w_1, w_2)
 # print("Packed up weights" + str(weights))
 
 
+# for 1: max_iterarions
+#for x in range(max_iterations):
+
+    
+	#Then we use a built-in optimizer 
+			#We pass in X, y, the gradients, and potentially the cost function (FFP_BP)
+			#We should receive updated weights back
+			
+			#model = opt.minimize(fun = CostFunc, x0 = initial_theta, args = (X, y), method = 'TNC', jac = Gradient)
 options = {'maxiter': max_iter}
 
 
+from scipy import optimize
+
 #for r in range(max_iter):
-#weights = optimize.fmin_cg(FFP, weights, backProp, args=(X, y, x_num_rows))
+	#weights = optimize.fmin_cg(FFP, weights, backProp, args=(X, y, x_num_rows))
 #self.t1, self.t2 = self.unpack_thetas(_res.x, input_layer_size, self.hidden_layer_size, num_labels)
 
-cost=FFP(weights, X, y, x_num_rows)
 result=predict(weights, X, y, x_num_rows)
 #print(y)
 print(result)
-print(cost)
 
 #MINI BATCH SGD
 #check validation every 2 epochs...to protect from overfitting (and what do you do if it's bad?)
