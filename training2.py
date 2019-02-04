@@ -332,8 +332,28 @@ w_1= numpy.matrix(numpy.random.random((input_layer_size, layer_hidden_one_size))
 w_2= numpy.matrix(numpy.random.random((layer_hidden_one_size, layer_hidden_two_size)))
 w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)))
 
+
 weights=pack_weights(w_1, w_2, w_3)
 # print("Packed up weights" + str(weights))
+
+# for 1: max_iterarions
+
+############################TODO: finish up mini-batches#########################################
+import numpy
+x_num_rows=10;
+input_layer_size=3;
+
+max_iter=5
+X= numpy.matrix(numpy.random.random((x_num_rows, input_layer_size)))
+
+for epoch in range(max_iter): #epochs
+    for batch in range(9): #mini-batches are size 25
+        x_batch= X[batch,:]
+
+print(X)
+print("=====================")
+print(x_batch)
+############################TODO: finish up mini-batches#########################################
 
 
 options = {'maxiter': max_iter}
