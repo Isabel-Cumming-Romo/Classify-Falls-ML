@@ -38,7 +38,7 @@ def computeGradient(upper_grad, w, X):
 	h_grad = numpy.matmul(upper_grad, numpy.transpose(w))
 	return W_grad, h_grad
 	
-	
+input_layer_size=21
 layer_hidden_one_size=20
 layer_hidden_two_size=30
 output_layer_size=1
@@ -49,20 +49,20 @@ lam=1
 	#initialize max number of iterations
 max_iter=5
 	
-data = pd.read_csv("CapstoneData_Revised.csv", low_memory=False);
+data = pd.read_csv("CapstoneData_FE.csv", low_memory=False);
 
 data=numpy.random.permutation(data)
 
 	#this is the number of features in the training matrix being read in (in the MATLAB code, is 256)
-num_features=10299;
+num_features=21;
 	
 	#this is the number of samples (i.e. rows)
 x_num_rows=600;
 
-input = data.iloc[0:599, 10299]; #the class labels are the last column of the csv file
-output=data.iloc[0:599, 0:10298];
+output = data[0:599, 21]; #the class labels are the last column of the csv file
+input=data[0:599, 0:21];
 
-test=data.iloc[600:647, :]
+test=data[600:647, :]
 
 # Initialize weights to random numbers: w_1, w_2, w_3 ...# TO DO: make sure the initialization numbers are small (between 0 and 1)
 w_1= numpy.matrix(numpy.random.random((input_layer_size, layer_hidden_one_size))) #
@@ -75,14 +75,13 @@ batch_size=50
 
 lossHistory = []
 
-for epoch in range(50)
+for epoch in range(50):
 	
 	count=0
 	
 	for i in range(12):
-	
-	X=input.iloc[count:(count+batch_size -1), :]
-	y=input.iloc[count:(count+batch_size -1), :]	
+		X=input[count:(count+batch_size -1), :]
+		y=input[count:(count+batch_size -1), :]	
 		
 		m_W1=0
 		v_W1=0

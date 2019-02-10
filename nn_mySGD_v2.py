@@ -19,18 +19,14 @@ def square(x):
 
 def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from the neural network), m (number of training examples)
 
-	#J=0 #initialize J
-	#for i=1:m
-	
-	#for i in range(x_num_rows):
-	    
-	    #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
+	# J=0 #initialize J
+	# for i in range(x_num_rows):
+		# #J = J + y(i)*log(h(x(i)))+ (1-y(i))*log(1-h(x(i)))
 	   
-		# J = J + y[i]*(numpy.log(h[i]*0.01)) + (1-y[i])*(numpy.log(1-(h[i]*0.01)))
-	
+		# J = J + y[i]*(numpy.log(h[i])) + (1-y[i])*(numpy.log(1-(h[i])))
 		# s=numpy.shape(h)
 
-		# J=J/s[0]
+		# J=J/(-s[0])
 		
 	
 	# #Then regularize the cost by summing together each individual squared term of each w matrix 
@@ -48,13 +44,8 @@ def computeCost(X, y, h, m):#Paramters: X, y, h (the hypothesis/prediction from 
 	s=numpy.shape(h)
 
 	J=J/s[0]
-	#regTerm=numpy.sum(square(w_1)) + numpy.sum(square(w_2)) + numpy.sum(square(w_3))
-	# print("regTerm " + str(regTerm))
-	# regTerm = (regTerm * lam)/(2*x_num_rows)
-	# J = J+regTerm
-	#print("J: " + str(J))
-	return J
 
+	return J
 	
 def computeGradient(upper_grad, w, X):
 	# Return W_grad, h_grad
@@ -65,26 +56,36 @@ def computeGradient(upper_grad, w, X):
 	h_grad = numpy.matmul(upper_grad, numpy.transpose(w))
 	return W_grad, h_grad
 	
-input_layer_size=10299
-layer_hidden_one_size=20
-layer_hidden_two_size=10
+input_layer_size=3
+layer_hidden_one_size=10
+layer_hidden_two_size=20
 output_layer_size=1
+x_num_rows=4
 	
 	#initialize lambda
 lam=1
+
 	
-data = pd.read_csv("CapstoneData_Revised.csv", low_memory=False);
-
-data=numpy.random.permutation(data)
-
-	#this is the number of features in the training matrix being read in (in the MATLAB code, is 256)
-num_features=10299;
+X = numpy.matrix([  [0,0,1],
+                [0,1,1],
+                [1,0,1],
+                [1,1,1] ])
+    
+# output dataset            
+y = numpy.matrix([[0,0,1,1]]).T	
 	
-	#this is the number of samples (i.e. rows)
-x_num_rows=10;
+# data = pd.read_csv("CapstoneData_Revised.csv", low_memory=False);
 
-output = numpy.matrix(data[0:10, 10299]).T #the class labels are the last column of the csv file
-input=data[0:10, 0:10299]
+# data=numpy.random.permutation(data)
+
+	# #this is the number of features in the training matrix being read in (in the MATLAB code, is 256)
+# num_features=10299;
+	
+	# #this is the number of samples (i.e. rows)
+# x_num_rows=50;
+
+# output = numpy.matrix(data[0:650, 10299]).T #the class labels are the last column of the csv file
+# input=data[0:650, 0:10299]
 
 # test=data[650:673, :]
 # Xtest=test[:, 0:10299]
@@ -115,21 +116,20 @@ w_3= numpy.matrix(numpy.random.random((layer_hidden_two_size, output_layer_size)
 
 step=0
 
-batch_size=10
-
+batch_size=50
 lossHistory = []
 testHistory=[]
 
 print("Training neural network")
-for epoch in range(100):
+for epoch in range(1):
 	
 	count=0
 	
-	for i in range(1):
+	for i in range(100):
 		
-		X=input[count:(count+batch_size), :]
+		#X=input[count:(count+batch_size), :]
 	
-		y=output[count:(count+batch_size), :]	
+	#	y=output[count:(count+batch_size), :]	
 		
 		m_W1=0
 		v_W1=0
@@ -174,10 +174,6 @@ for epoch in range(100):
 		layer1_z_gradient = numpy.multiply(layer1_act_gradient, sigmoidGradient(z_2))
 		
 		W1_gradient, throwAway = computeGradient(layer1_z_gradient, w_1, X)
-		
-		# w_1 += numpy.dot(layer1_activation, W1_gradient)
-		# w_2 += numpy.dot(layer2_activation, W2_gradient)
-		# w_3 += numpy.dot(layer3_activation, W3_gradient)
 
 		step = step+1 #step + 1
 		m_W1 = (0.9 * m_W1 + 0.1 * W1_gradient)
@@ -194,28 +190,8 @@ for epoch in range(100):
 		
 		count=count+batch_size
 		
-		#Test test
-		
-		# layer1_activation=Xtest; 
-		# #print("X: " + str(numpy.shape(X)))
-		# z_2 = numpy.dot(layer1_activation, w_1) 
-		# #print("z_2: " + str(numpy.shape(z_2)))
-		# layer2_activation= sigmoid (z_2)
-			
-		# z_3= numpy.dot(layer2_activation, w_2)
-		# #print("z_3: " + str(numpy.shape(z_3)))
-		# layer3_activation = sigmoid(z_3)
-		
-		# z_4= numpy.dot(layer3_activation, w_3)
-		# #print("z_4: " + str(numpy.shape(z_4)))
-		# htest = sigmoid(z_4)
-		# #print("h: " + str(numpy.shape(h)))
-		# cost=computeCost(Xtest, ytest, htest, x_num_rows)
-		
-		# testHistory.append(cost)
-		
-	
-layer1_activation=input; 
+layer1_activation=X; 
+#layer1_activation=input; 
 z_2 = numpy.dot(layer1_activation, w_1) 
 layer2_activation= sigmoid (z_2)
 		
@@ -224,18 +200,26 @@ layer3_activation = sigmoid(z_3)
 z_out= numpy.dot(layer3_activation, w_3)
 
 h = sigmoid(z_out)
-cost=computeCost(input, output, h, x_num_rows)
 h[h >= 0.5]=1
 h[h < 0.5]=0
+
+#cost=computeCost(input, output, h, x_num_rows)
+cost=computeCost(X, y, h, x_num_rows)
+
 print("Cost is " + str(cost))
-result=(h==output)
-print(str(numpy.sum(result)/650))
-print(str(sum(h)))
+
+#result=(h==output)
+# print(str(numpy.sum(result)/650))
+# print(str(sum(h)))
+
+print("Actual: " + str(y))
+print("Predicted: " + str(h))
+
 
 
 plt.figure(figsize=(12, 9))
 plt.subplot(311)
-plt.plot(lossHistory, 'r')
+plt.plot(lossHistory)
 #plt.plot(testHistory, 'b')
 #plt.subplot(312)
 # plt.plot(H, '-*')
